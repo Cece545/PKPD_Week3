@@ -15,12 +15,14 @@ k=0.1;
 
 fun = @(t, C) -k*C;
 
-C = euler(fun, t0, tf, C0, n)
+euler_data = euler(fun, t0, tf, C0, n)
 
-time = C(:,1);
-concentration = C(:,2);
+time = euler_data(:,1);
+concentration = euler_data(:,2);
 
-function output = euler(fun, t0, tf, C0, n)
+
+
+function euler_output = euler(fun, t0, tf, C0, n)
     % define the size of the step
     h = (tf-t0)/n;
 
@@ -33,5 +35,5 @@ function output = euler(fun, t0, tf, C0, n)
     for i=1:n
        C(i+1)=C(i)+h*fun(t(i),C(i));
     end
-    output = [t,C];
+    euler_output = [t,C];
 end
