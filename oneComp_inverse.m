@@ -1,39 +1,30 @@
-% number of steps n
-n = 10;
+function data_entry = Inverse_Problem()
 
-% time start t0
-t0 = 0.5;
+clear all;
+close all;
+data_entry = 0;
 
-% time end tf
-tf = 20.5;
+% sampled euler data
+time = 0.5:2:20.5;
+concentration = [95.1786, 78.1082, 64.0994, 52.6031, 43.1687, 35.4263, 29.0726, 23.8584, 19.5794, 16.0678, 13.1860];
 
-% initial condition C0
-C0 = 100;
+%beta0 is the guess vector with the initial guess values of C0 and ke
+%we'll just guess 50 and 1 for the starting values
 
-% elimination constant k
-k=0.1;
+beta0 = [50 , 1];
 
-fun = @(t, C) -k*C;
+% Generate a vector of the coefficient estimates using nlinfit
+                                 
+[parameters] = nlinfit(time, concentration, @conc, beta0);    
+disp('Parameter Estimates of C0 and ke (20.5h): ')
+disp(parameters)
 
-euler_data = euler(fun, t0, tf, C0, n)
+data_entry = 1
+return;
 
-time = euler_data(:,1);
-concentration = euler_data(:,2);
-
-
-
-function euler_output = euler(fun, t0, tf, C0, n)
-    % define the size of the step
-    h = (tf-t0)/n;
-
-    % defining time vector and empty y-vector
-    t = (t0:h:tf)';
-    C = zeros(n+1, 1);
-
-    C(1) = C0;
-
-    for i=1:n
-       C(i+1)=C(i)+h*fun(t(i),C(i));
-    end
-    euler_output = [t,C];
-end
+% function for modeling the fit of the data
+function output = conc(c, t) 
+      C0   = c(1); %finds value of C0
+      k   = c(2); %finds the rate constant of elimination
+      output  =  C0*exp(-k*t); 
+return;

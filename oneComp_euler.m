@@ -1,11 +1,11 @@
 % number of steps n
-n = 20;
+n = 84;
 
 % time start t0
 t0 = 0;
 
 % time end tf
-tf = 10;
+tf = 20.5;
 
 % initial condition C0
 C0 = 100;
@@ -49,6 +49,17 @@ end
 errors = errors'
 percent_error = transpose((errors./C(i,2)).*100)
 percent_error = percent_error'
+
+% generate samples for fitting
+time = 0.5:2:20.5;
+samples = zeros(11,1);
+for i=1:11
+    samples(i) = C(8*i-5,2);
+end
+
+euler_samples = [time(:), samples(:)]
+time = transpose(time)
+samples = transpose(samples)
 
 function output = euler(fun, t0, tf, C0, n)
     % define the size of the step
