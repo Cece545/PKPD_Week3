@@ -96,7 +96,7 @@ function data_entry = Inverse_Problem()
                 C_oral(i) = 0; % No drug before administration
             else
                 % Modified oral administration model to decrease concentration over time
-                C_oral(i) = (Dose * ka * exp(-k * t)) / (Vd * (ka - k));
+                C_oral = (((Dose/Vd) * ka) / ((k-ka))) * (1 - exp(-k * time)) + exp(k * time);
             end
         end
     end
