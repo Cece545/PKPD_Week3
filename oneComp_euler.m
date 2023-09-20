@@ -30,15 +30,30 @@ fun = @(t, C) -k*C;
 % calling the euler function
 C = euler(fun, t0, tf, C0, n);
 
+C2 = euler(fun, t0, tf, C0, 2);
+C3 = euler(fun, t0, tf, C0, 3);
+C5 = euler(fun, t0, tf, C0, 5);
+C8 = euler(fun, t0, tf, C0, 8);
+C10 = euler(fun, t0, tf, C0, 10);
+C20 = euler(fun, t0, tf, C0, 20);
+
 % vector C is n x 2
 % first column: linspace for time
 % second column: values after each step
 
 % plotting
-plot(C(:,1),C(:,2), 'linewidth', 2)
-title(['Euler Method With ',num2str(n),' steps'])
+plot(C2(:,1),C2(:,2), 'linewidth', 1)
+hold on
+plot(C3(:,1),C3(:,2), 'linewidth', 1)
+plot(C5(:,1),C5(:,2), 'linewidth', 1)
+plot(C8(:,1),C8(:,2), 'linewidth', 1)
+plot(C10(:,1),C10(:,2), 'linewidth', 1)
+plot(C20(:,1),C20(:,2), 'linewidth', 1)
+
+title(['Euler Method with increasing numbers of steps'])
 xlabel('Time (Hours)')
 ylabel('Concentration')
+legend('2 steps', '3 steps', '5 steps', '8 steps', '10 steps', '20 steps')
 
 errors = zeros(n,1);
 for i=1:n
